@@ -9,38 +9,331 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as MyTicketsRouteImport } from './routes/my-tickets'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GamesIdRouteImport } from './routes/games.$id'
+import { Route as AdminPlayersRouteImport } from './routes/admin.players'
+import { Route as AdminGamesRouteImport } from './routes/admin.games'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as GamesIdWinnerRouteImport } from './routes/games.$id.winner'
+import { Route as AdminGamesNewRouteImport } from './routes/admin.games.new'
+import { Route as AdminGamesIdTicketsRouteImport } from './routes/admin.games.$id.tickets'
+import { Route as AdminGamesIdEditRouteImport } from './routes/admin.games.$id.edit'
+import { Route as AdminGamesIdDrawRouteImport } from './routes/admin.games.$id.draw'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyTicketsRoute = MyTicketsRouteImport.update({
+  id: '/my-tickets',
+  path: '/my-tickets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamesIdRoute = GamesIdRouteImport.update({
+  id: '/games/$id',
+  path: '/games/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPlayersRoute = AdminPlayersRouteImport.update({
+  id: '/players',
+  path: '/players',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGamesRoute = AdminGamesRouteImport.update({
+  id: '/games',
+  path: '/games',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const GamesIdWinnerRoute = GamesIdWinnerRouteImport.update({
+  id: '/winner',
+  path: '/winner',
+  getParentRoute: () => GamesIdRoute,
+} as any)
+const AdminGamesNewRoute = AdminGamesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminGamesRoute,
+} as any)
+const AdminGamesIdTicketsRoute = AdminGamesIdTicketsRouteImport.update({
+  id: '/$id/tickets',
+  path: '/$id/tickets',
+  getParentRoute: () => AdminGamesRoute,
+} as any)
+const AdminGamesIdEditRoute = AdminGamesIdEditRouteImport.update({
+  id: '/$id/edit',
+  path: '/$id/edit',
+  getParentRoute: () => AdminGamesRoute,
+} as any)
+const AdminGamesIdDrawRoute = AdminGamesIdDrawRouteImport.update({
+  id: '/$id/draw',
+  path: '/$id/draw',
+  getParentRoute: () => AdminGamesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
+  '/my-tickets': typeof MyTicketsRoute
+  '/register': typeof RegisterRoute
+  '/terms': typeof TermsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/games': typeof AdminGamesRouteWithChildren
+  '/admin/players': typeof AdminPlayersRoute
+  '/games/$id': typeof GamesIdRouteWithChildren
+  '/admin/games/new': typeof AdminGamesNewRoute
+  '/games/$id/winner': typeof GamesIdWinnerRoute
+  '/admin/games/$id/draw': typeof AdminGamesIdDrawRoute
+  '/admin/games/$id/edit': typeof AdminGamesIdEditRoute
+  '/admin/games/$id/tickets': typeof AdminGamesIdTicketsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
+  '/my-tickets': typeof MyTicketsRoute
+  '/register': typeof RegisterRoute
+  '/terms': typeof TermsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/games': typeof AdminGamesRouteWithChildren
+  '/admin/players': typeof AdminPlayersRoute
+  '/games/$id': typeof GamesIdRouteWithChildren
+  '/admin/games/new': typeof AdminGamesNewRoute
+  '/games/$id/winner': typeof GamesIdWinnerRoute
+  '/admin/games/$id/draw': typeof AdminGamesIdDrawRoute
+  '/admin/games/$id/edit': typeof AdminGamesIdEditRoute
+  '/admin/games/$id/tickets': typeof AdminGamesIdTicketsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
+  '/my-tickets': typeof MyTicketsRoute
+  '/register': typeof RegisterRoute
+  '/terms': typeof TermsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/games': typeof AdminGamesRouteWithChildren
+  '/admin/players': typeof AdminPlayersRoute
+  '/games/$id': typeof GamesIdRouteWithChildren
+  '/admin/games/new': typeof AdminGamesNewRoute
+  '/games/$id/winner': typeof GamesIdWinnerRoute
+  '/admin/games/$id/draw': typeof AdminGamesIdDrawRoute
+  '/admin/games/$id/edit': typeof AdminGamesIdEditRoute
+  '/admin/games/$id/tickets': typeof AdminGamesIdTicketsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/contact'
+    | '/dashboard'
+    | '/how-it-works'
+    | '/login'
+    | '/my-tickets'
+    | '/register'
+    | '/terms'
+    | '/admin/dashboard'
+    | '/admin/games'
+    | '/admin/players'
+    | '/games/$id'
+    | '/admin/games/new'
+    | '/games/$id/winner'
+    | '/admin/games/$id/draw'
+    | '/admin/games/$id/edit'
+    | '/admin/games/$id/tickets'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/contact'
+    | '/dashboard'
+    | '/how-it-works'
+    | '/login'
+    | '/my-tickets'
+    | '/register'
+    | '/terms'
+    | '/admin/dashboard'
+    | '/admin/games'
+    | '/admin/players'
+    | '/games/$id'
+    | '/admin/games/new'
+    | '/games/$id/winner'
+    | '/admin/games/$id/draw'
+    | '/admin/games/$id/edit'
+    | '/admin/games/$id/tickets'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/contact'
+    | '/dashboard'
+    | '/how-it-works'
+    | '/login'
+    | '/my-tickets'
+    | '/register'
+    | '/terms'
+    | '/admin/dashboard'
+    | '/admin/games'
+    | '/admin/players'
+    | '/games/$id'
+    | '/admin/games/new'
+    | '/games/$id/winner'
+    | '/admin/games/$id/draw'
+    | '/admin/games/$id/edit'
+    | '/admin/games/$id/tickets'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  LoginRoute: typeof LoginRoute
+  MyTicketsRoute: typeof MyTicketsRoute
+  RegisterRoute: typeof RegisterRoute
+  TermsRoute: typeof TermsRoute
+  GamesIdRoute: typeof GamesIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-tickets': {
+      id: '/my-tickets'
+      path: '/my-tickets'
+      fullPath: '/my-tickets'
+      preLoaderRoute: typeof MyTicketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +341,127 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/games/$id': {
+      id: '/games/$id'
+      path: '/games/$id'
+      fullPath: '/games/$id'
+      preLoaderRoute: typeof GamesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/players': {
+      id: '/admin/players'
+      path: '/players'
+      fullPath: '/admin/players'
+      preLoaderRoute: typeof AdminPlayersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/games': {
+      id: '/admin/games'
+      path: '/games'
+      fullPath: '/admin/games'
+      preLoaderRoute: typeof AdminGamesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/games/$id/winner': {
+      id: '/games/$id/winner'
+      path: '/winner'
+      fullPath: '/games/$id/winner'
+      preLoaderRoute: typeof GamesIdWinnerRouteImport
+      parentRoute: typeof GamesIdRoute
+    }
+    '/admin/games/new': {
+      id: '/admin/games/new'
+      path: '/new'
+      fullPath: '/admin/games/new'
+      preLoaderRoute: typeof AdminGamesNewRouteImport
+      parentRoute: typeof AdminGamesRoute
+    }
+    '/admin/games/$id/tickets': {
+      id: '/admin/games/$id/tickets'
+      path: '/$id/tickets'
+      fullPath: '/admin/games/$id/tickets'
+      preLoaderRoute: typeof AdminGamesIdTicketsRouteImport
+      parentRoute: typeof AdminGamesRoute
+    }
+    '/admin/games/$id/edit': {
+      id: '/admin/games/$id/edit'
+      path: '/$id/edit'
+      fullPath: '/admin/games/$id/edit'
+      preLoaderRoute: typeof AdminGamesIdEditRouteImport
+      parentRoute: typeof AdminGamesRoute
+    }
+    '/admin/games/$id/draw': {
+      id: '/admin/games/$id/draw'
+      path: '/$id/draw'
+      fullPath: '/admin/games/$id/draw'
+      preLoaderRoute: typeof AdminGamesIdDrawRouteImport
+      parentRoute: typeof AdminGamesRoute
+    }
   }
 }
 
+interface AdminGamesRouteChildren {
+  AdminGamesNewRoute: typeof AdminGamesNewRoute
+  AdminGamesIdDrawRoute: typeof AdminGamesIdDrawRoute
+  AdminGamesIdEditRoute: typeof AdminGamesIdEditRoute
+  AdminGamesIdTicketsRoute: typeof AdminGamesIdTicketsRoute
+}
+
+const AdminGamesRouteChildren: AdminGamesRouteChildren = {
+  AdminGamesNewRoute: AdminGamesNewRoute,
+  AdminGamesIdDrawRoute: AdminGamesIdDrawRoute,
+  AdminGamesIdEditRoute: AdminGamesIdEditRoute,
+  AdminGamesIdTicketsRoute: AdminGamesIdTicketsRoute,
+}
+
+const AdminGamesRouteWithChildren = AdminGamesRoute._addFileChildren(
+  AdminGamesRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminGamesRoute: typeof AdminGamesRouteWithChildren
+  AdminPlayersRoute: typeof AdminPlayersRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminGamesRoute: AdminGamesRouteWithChildren,
+  AdminPlayersRoute: AdminPlayersRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface GamesIdRouteChildren {
+  GamesIdWinnerRoute: typeof GamesIdWinnerRoute
+}
+
+const GamesIdRouteChildren: GamesIdRouteChildren = {
+  GamesIdWinnerRoute: GamesIdWinnerRoute,
+}
+
+const GamesIdRouteWithChildren =
+  GamesIdRoute._addFileChildren(GamesIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
+  ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  LoginRoute: LoginRoute,
+  MyTicketsRoute: MyTicketsRoute,
+  RegisterRoute: RegisterRoute,
+  TermsRoute: TermsRoute,
+  GamesIdRoute: GamesIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
