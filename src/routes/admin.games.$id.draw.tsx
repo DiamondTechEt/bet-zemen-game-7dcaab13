@@ -19,7 +19,7 @@ function DrawPage() {
     queryFn: async () => {
       const { data: g } = await supabase.from("games").select("*").eq("id", id).single();
       const { data: tks } = await supabase.from("tickets").select("ticket_number, profiles(full_name, phone)").eq("game_id", id).eq("status", "verified");
-      const { data: w } = await supabase.from("winner_draws").select("*, profiles(full_name, phone)").eq("game_id", id).maybeSingle();
+      const { data: w } = await supabase.from("winner_draws").select("*, profiles!winner_draws_winner_user_id_fkey(full_name, phone)").eq("game_id", id).maybeSingle();
       return { g, tks: tks ?? [], w };
     },
   });
@@ -49,7 +49,7 @@ function DrawPage() {
         <Card className="mt-6 p-8 shadow-gold">
           <Trophy className="mx-auto h-12 w-12 text-gold" />
           <p className="mt-4">አሸናፊ:</p>
-          <p className="text-2xl font-bold">{data.w.profiles?.full_name}</p>
+          <p className="text-2xl font-bold">{(data.w as any).profiles?.full_name}</p>
           <p className="font-mono text-4xl text-gold">#{data.w.winning_ticket_number}</p>
         </Card>
       ) : (

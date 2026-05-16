@@ -29,7 +29,7 @@ function AdminTickets() {
       const { error } = await supabase.rpc("assign_ticket_number" as any, { _ticket_id: tid, _verified_amount: tk?.verified_amount ?? data?.g?.ticket_price ?? 0 });
       if (error) return toast.error(error.message);
     } else {
-      const { error } = await supabase.from("tickets").update({ status, rejection_reason: reason ?? null }).eq("id", tid);
+      const { error } = await supabase.from("tickets").update({ status: status as any, rejection_reason: reason ?? null }).eq("id", tid);
       if (error) return toast.error(error.message);
     }
     toast.success("ተዘምኗል"); refetch();

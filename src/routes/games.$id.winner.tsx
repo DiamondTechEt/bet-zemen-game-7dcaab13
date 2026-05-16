@@ -15,12 +15,12 @@ function WinnerPage() {
     queryKey: ["winner", id],
     queryFn: async () => {
       const { data: g } = await supabase.from("games").select("*").eq("id", id).single();
-      const { data: w } = await supabase.from("winner_draws").select("*, profiles(full_name)").eq("game_id", id).maybeSingle();
+      const { data: w } = await supabase.from("winner_draws").select("*, profiles!winner_draws_winner_user_id_fkey(full_name)").eq("game_id", id).maybeSingle();
       return { game: g, draw: w };
     },
   });
   if (!data) return <PageShell><div className="container py-12 px-4">{t.loading}</div></PageShell>;
-  const winnerName = data.draw?.profiles?.full_name?.split(" ");
+  const winnerName = (data.draw as any)?.profiles?.full_name?.split(" ");
   const display = winnerName ? `${winnerName[0]} ${winnerName[1]?.[0] ?? ""}.` : "—";
   return (
     <PageShell>
