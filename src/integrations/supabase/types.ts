@@ -14,16 +14,317 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          message: string
+          name: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      games: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          ends_at: string | null
+          game_image_url: string | null
+          id: string
+          payment_account_name: string | null
+          payment_account_number: string | null
+          payment_bank: string | null
+          prize_description: string | null
+          starts_at: string | null
+          status: Database["public"]["Enums"]["game_status"]
+          ticket_price: number
+          tickets_sold: number
+          title: string
+          total_tickets: number
+          updated_at: string
+          winner_ticket_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string | null
+          game_image_url?: string | null
+          id?: string
+          payment_account_name?: string | null
+          payment_account_number?: string | null
+          payment_bank?: string | null
+          prize_description?: string | null
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["game_status"]
+          ticket_price: number
+          tickets_sold?: number
+          title: string
+          total_tickets: number
+          updated_at?: string
+          winner_ticket_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string | null
+          game_image_url?: string | null
+          id?: string
+          payment_account_name?: string | null
+          payment_account_number?: string | null
+          payment_bank?: string | null
+          prize_description?: string | null
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["game_status"]
+          ticket_price?: number
+          tickets_sold?: number
+          title?: string
+          total_tickets?: number
+          updated_at?: string
+          winner_ticket_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "games_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          is_admin: boolean
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id: string
+          is_admin?: boolean
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          is_admin?: boolean
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tickets: {
+        Row: {
+          created_at: string
+          game_id: string
+          id: string
+          payment_bank: string
+          payment_phone: string | null
+          payment_reference: string
+          payment_suffix: string | null
+          receipt_image_url: string | null
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["ticket_status"]
+          ticket_number: number | null
+          updated_at: string
+          user_id: string
+          verified_amount: number | null
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          game_id: string
+          id?: string
+          payment_bank: string
+          payment_phone?: string | null
+          payment_reference: string
+          payment_suffix?: string | null
+          receipt_image_url?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          ticket_number?: number | null
+          updated_at?: string
+          user_id: string
+          verified_amount?: number | null
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          game_id?: string
+          id?: string
+          payment_bank?: string
+          payment_phone?: string | null
+          payment_reference?: string
+          payment_suffix?: string | null
+          receipt_image_url?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          ticket_number?: number | null
+          updated_at?: string
+          user_id?: string
+          verified_amount?: number | null
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      winner_draws: {
+        Row: {
+          drawn_at: string
+          drawn_by: string | null
+          game_id: string
+          id: string
+          winner_user_id: string
+          winning_ticket_id: string
+          winning_ticket_number: number
+        }
+        Insert: {
+          drawn_at?: string
+          drawn_by?: string | null
+          game_id: string
+          id?: string
+          winner_user_id: string
+          winning_ticket_id: string
+          winning_ticket_number: number
+        }
+        Update: {
+          drawn_at?: string
+          drawn_by?: string | null
+          game_id?: string
+          id?: string
+          winner_user_id?: string
+          winning_ticket_id?: string
+          winning_ticket_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "winner_draws_drawn_by_fkey"
+            columns: ["drawn_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "winner_draws_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: true
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "winner_draws_winner_user_id_fkey"
+            columns: ["winner_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "winner_draws_winning_ticket_id_fkey"
+            columns: ["winning_ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      assign_ticket_number: {
+        Args: { _ticket_id: string; _verified_amount: number }
+        Returns: number
+      }
+      draw_winner: { Args: { _game_id: string }; Returns: string }
+      is_admin: { Args: { _uid: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      game_status: "draft" | "active" | "closed" | "completed"
+      notification_type: "success" | "error" | "info"
+      ticket_status:
+        | "pending_payment"
+        | "payment_uploaded"
+        | "verified"
+        | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +451,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      game_status: ["draft", "active", "closed", "completed"],
+      notification_type: ["success", "error", "info"],
+      ticket_status: [
+        "pending_payment",
+        "payment_uploaded",
+        "verified",
+        "rejected",
+      ],
+    },
   },
 } as const
