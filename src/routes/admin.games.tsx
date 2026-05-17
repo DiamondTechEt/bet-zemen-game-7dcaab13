@@ -4,21 +4,28 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Ticket, Trophy, Pencil } from "lucide-react";
+import { Plus, Ticket, Trophy, Pencil, Trash2 } from "lucide-react";
 import { formatETB, t } from "@/lib/i18n";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/games")({ component: AdminGames });
 
 function AdminGames() {
-  const { data, refetch } = useQuery({
+  const { data, refetch, isLoading } = useQuery({
     queryKey: ["admin-games"],
     queryFn: async () => (await supabase.from("games").select("*").order("created_at", { ascending: false })).data ?? [],
+    staleTime: 15_000,
   });
 
   const setStatus = async (id: string, status: string) => {
     const { error } = await supabase.from("games").update({ status: status as any }).eq("id", id);
     if (error) toast.error(error.message); else { toast.success("ተዘምኗል"); refetch(); }
+  };
+
+  const remove = async (id: string) => {
+    if (!confirm("ይህን ጨዋታ መሰረዝ ይፈልጋሉ?")) return;
+    const { error } = await supabase.from("games").delete().eq("id", id);
+    if (error) toast.error(error.message); else { toast.success("ተሰርዟል"); refetch(); }
   };
 
   return (
