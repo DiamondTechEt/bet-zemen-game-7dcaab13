@@ -35,11 +35,12 @@ function AdminGames() {
         <Link to="/admin/games/new"><Button><Plus className="mr-1 h-4 w-4" />{t.createGame}</Button></Link>
       </div>
       <div className="grid gap-4">
+        {isLoading && <p className="text-muted-foreground">በመጫን ላይ...</p>}
         {data?.map((g) => (
           <Card key={g.id} className="p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                {g.game_image_url && <img src={g.game_image_url} className="h-14 w-14 rounded object-cover" alt="" />}
+                {g.game_image_url && <img src={g.game_image_url} className="h-14 w-14 rounded object-cover" alt="" loading="lazy" />}
                 <div>
                   <p className="font-bold">{g.title}</p>
                   <p className="text-sm text-muted-foreground">{formatETB(g.ticket_price)} · {g.tickets_sold}/{g.total_tickets}</p>
@@ -52,6 +53,7 @@ function AdminGames() {
                 <Link to="/admin/games/$id/draw" params={{ id: g.id }}><Button size="sm" variant="outline"><Trophy className="mr-1 h-3 w-3" />ዕጣ</Button></Link>
                 {g.status === "draft" && <Button size="sm" onClick={() => setStatus(g.id, "active")}>አስጀምር</Button>}
                 {g.status === "active" && <Button size="sm" variant="secondary" onClick={() => setStatus(g.id, "closed")}>ዝጋ</Button>}
+                <Button size="sm" variant="destructive" onClick={() => remove(g.id)}><Trash2 className="h-3 w-3" /></Button>
               </div>
             </div>
           </Card>
