@@ -57,7 +57,6 @@ function RegisterPage() {
           <p className="mb-6 text-sm text-muted-foreground">በቅርቡ ለመጀመር አዲስ አካውንት ይክፈቱ</p>
           <form onSubmit={submit} className="space-y-3">
             <div><Label>{t.fullName}</Label><Input value={fullName} onChange={(e) => setFullName(e.target.value)} required /></div>
-            <div><Label>{t.email} <span className="text-muted-foreground text-xs">(አማራጭ)</span></Label><Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
             <div><Label>{t.phone}</Label><Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="09xxxxxxxx" required /></div>
             <div><Label>{t.password}</Label><Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} /></div>
             <div><Label>{t.confirmPassword}</Label><Input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required /></div>
