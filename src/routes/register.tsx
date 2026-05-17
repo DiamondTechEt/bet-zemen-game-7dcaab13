@@ -14,7 +14,6 @@ export const Route = createFileRoute("/register")({ component: RegisterPage });
 
 function RegisterPage() {
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
