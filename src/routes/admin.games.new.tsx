@@ -35,26 +35,50 @@ export function GameForm({ existing }: { existing?: any }) {
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
-    let image_url = existing?.game_image_url ?? null;
-    if (file) {
-      const path = `game-${Date.now()}.${file.name.split(".").pop()}`;
-      const { error } = await supabase.storage.from("game-images").upload(path, file, { upsert: true });
-      if (!error) image_url = supabase.storage.from("game-images").getPublicUrl(path).data.publicUrl;
+    try {
+      let image_url = existing?.game_image_url ?? null;
+      if (file) {
+        const path = `game-${Date.now()}.${file.name.split(".").pop()}`;
+        const { error: upErr } = await supabase.storage.from("game-images").upload(path, file, { upsert: true });
+        if (upErr) { console.error("upload err", upErr); toast.error("ምስል መጫን አልተሳካም: " + upErr.message); setBusy(false); return; }
+        image_url = supabase.storage.from("game-images").getPublicUrl(path).data.publicUrl;
+      }
+      const payload: any = {
+        title: f.title,
+        description: f.description || null,
+        prize_description: f.prize_description || null,
+        ticket_price: Number(f.ticket_price),
+        total_tickets: Number(f.total_tickets),
+        payment_account_name: f.payment_account_name || null,
+        payment_account_number: f.payment_account_number || null,
+        payment_bank: f.payment_bank || null,
+        status: f.status,
+        starts_at: f.starts_at ? new Date(f.starts_at).toISOString() : null,
+        ends_at: f.ends_at ? new Date(f.ends_at).toISOString() : null,
+        game_image_url: image_url,
+        created_by: user?.id,
+      };
+      if (!user?.id) { toast.error("እባክዎ ይግቡ"); setBusy(false); return; }
+      if (!payload.title || !payload.ticket_price || !payload.total_tickets) {
+        toast.error("ርዕስ፣ ዋጋ እና ቲኬት ቁጥር ያስፈልጋሉ"); setBusy(false); return;
+      }
+      const { error } = existing
+        ? await supabase.from("games").update(payload).eq("id", existing.id)
+        : await supabase.from("games").insert(payload);
+      if (error) {
+        console.error("game save error", error);
+        toast.error(error.message || "ማስቀመጥ አልተሳካም");
+        setBusy(false);
+        return;
+      }
+      toast.success("ተቀምጧል");
+      navigate({ to: "/admin/games" });
+    } catch (err: any) {
+      console.error("unexpected", err);
+      toast.error(err?.message ?? "ስህተት ተከስቷል");
+    } finally {
+      setBusy(false);
     }
-    const payload = {
-      ...f,
-      ticket_price: Number(f.ticket_price),
-      total_tickets: Number(f.total_tickets),
-      ends_at: f.ends_at || null,
-      game_image_url: image_url,
-      created_by: user?.id,
-    };
-    const { error } = existing
-      ? await supabase.from("games").update(payload).eq("id", existing.id)
-      : await supabase.from("games").insert(payload);
-    setBusy(false);
-    if (error) toast.error(error.message);
-    else { toast.success("ተቀምጧል"); navigate({ to: "/admin/games" }); }
   };
 
   return (
