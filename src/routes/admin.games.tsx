@@ -1,16 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Plus, Ticket, Trophy, Pencil, Trash2 } from "lucide-react";
 import { formatETB, t } from "@/lib/i18n";
 import { toast } from "sonner";
+import { GameForm } from "@/components/GameForm";
 
 export const Route = createFileRoute("/admin/games")({ component: AdminGames });
 
 function AdminGames() {
+  const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState<any>(null);
+
   const { data, refetch, isLoading } = useQuery({
     queryKey: ["admin-games"],
     queryFn: async () => (await supabase.from("games").select("*").order("created_at", { ascending: false })).data ?? [],
@@ -28,11 +34,14 @@ function AdminGames() {
     if (error) toast.error(error.message); else { toast.success("ተሰርዟል"); refetch(); }
   };
 
+  const openCreate = () => { setEditing(null); setOpen(true); };
+  const openEdit = (g: any) => { setEditing(g); setOpen(true); };
+
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="font-display text-3xl font-bold">{t.manageGames}</h1>
-        <Link to="/admin/games/new"><Button><Plus className="mr-1 h-4 w-4" />{t.createGame}</Button></Link>
+        <Button onClick={openCreate}><Plus className="mr-1 h-4 w-4" />{t.createGame}</Button>
       </div>
       <div className="grid gap-4">
         {isLoading && <p className="text-muted-foreground">በመጫን ላይ...</p>}
@@ -48,7 +57,7 @@ function AdminGames() {
               </div>
               <Badge>{g.status}</Badge>
               <div className="flex flex-wrap gap-2">
-                <Link to="/admin/games/$id/edit" params={{ id: g.id }}><Button size="sm" variant="outline"><Pencil className="h-3 w-3" /></Button></Link>
+                <Button size="sm" variant="outline" onClick={() => openEdit(g)}><Pencil className="h-3 w-3" /></Button>
                 <Link to="/admin/games/$id/tickets" params={{ id: g.id }}><Button size="sm" variant="outline"><Ticket className="mr-1 h-3 w-3" />ቲኬቶች</Button></Link>
                 <Link to="/admin/games/$id/draw" params={{ id: g.id }}><Button size="sm" variant="outline"><Trophy className="mr-1 h-3 w-3" />ዕጣ</Button></Link>
                 {g.status === "draft" && <Button size="sm" onClick={() => setStatus(g.id, "active")}>አስጀምር</Button>}
@@ -59,6 +68,19 @@ function AdminGames() {
           </Card>
         ))}
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{editing ? "ጨዋታ አስተካክል" : t.createGame}</DialogTitle>
+          </DialogHeader>
+          <GameForm
+            key={editing?.id ?? "new"}
+            existing={editing}
+            onDone={() => { setOpen(false); refetch(); }}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
