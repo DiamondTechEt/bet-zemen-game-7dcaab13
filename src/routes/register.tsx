@@ -37,7 +37,7 @@ function RegisterPage() {
       password,
       options: {
         emailRedirectTo: `${window.location.origin}/dashboard`,
-        data: { full_name: fullName.trim(), phone: p, real_email: email },
+        data: { full_name: fullName.trim(), phone: p },
       },
     });
     setLoading(false);
